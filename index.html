@@ -10,6 +10,13 @@
 
   gtag('config', 'G-D9JSGXL2NQ');
 </script>
+<!-- CLERK AUTHENTICATION -->
+<script
+  async
+  crossorigin="anonymous"
+  data-clerk-publishable-key="pk_live_Y2xlcmsuaGluZHVhaS5pbiQ"
+  src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js">
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HinduAI — Wisdom of Dharma, Powered by AI</title>
@@ -405,7 +412,7 @@ footer {
     <a href="#pricing">Pricing</a>
     <a href="#" onclick="openLegal('privacy'); return false;">Privacy</a>
     <a href="mailto:support@hinduai.in">Contact</a>
-    <a href="#" class="btn-signin" onclick="openSignIn(); return false;">Sign In ✦</a>
+    <a href="#" class="btn-signin" onclick="openLogin(); return false;">Sign In ✦</a>
   </div>
 </nav>
 
@@ -652,7 +659,9 @@ footer {
     <p>Unlock unlimited wisdom. All 5 Sacred Modes. Daily Dharma. Priority guidance.</p>
     <p style="color:var(--gold);font-weight:600;margin-bottom:4px;">🎉 Launch Offer: ₹999/year</p>
     <p style="font-size:12px;color:var(--muted);margin-bottom:22px;">Normally ₹1,999 — Save ₹1,000</p>
-    <button class="btn-plan btn-plan-gold" style="margin-bottom:10px;" onclick="closeModal('upgradeModal')">Pay ₹999/year · Razorpay</button>
+    <button class="btn-plan btn-plan-gold" style="margin-bottom:10px;" onclick="startPayment()">
+Pay ₹999/year · Razorpay
+</button>
     <button class="btn-plan btn-plan-outline" onclick="closeModal('upgradeModal')">Monthly ₹199/month</button>
     <p style="font-size:11px;color:var(--muted);margin-top:12px;margin-bottom:0;">UPI · Cards · Net Banking · Cancel anytime</p>
   </div>
@@ -931,6 +940,47 @@ function openLegal(type) {
 function closeLegal() {
   document.getElementById('legalModal').classList.remove('open');
 }
+</script>
+<script>
+window.addEventListener("load", async () => {
+  await Clerk.load()
+})
+
+function openLogin(){
+  Clerk.openSignIn()
+}
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+function startPayment(){
+
+var options = {
+
+key: "rzp_live_SVBjCn9RD2Eroo",
+
+amount: 99900,
+
+currency: "INR",
+
+name: "HinduAI",
+
+description: "HinduAI Premium",
+
+handler: function (response){
+
+alert("Payment successful: " + response.razorpay_payment_id);
+
+}
+
+};
+
+var rzp = new Razorpay(options);
+
+rzp.open();
+
+}
+
 </script>
 </body>
 </html>

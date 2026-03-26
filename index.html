@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D9JSGXL2NQ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-D9JSGXL2NQ');
-</script>
-<!-- RAZORPAY -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HinduAI — Wisdom of Dharma, Powered by AI</title>
 <meta name="description" content="HinduAI is an AI Knowledge Engine for Sanatan Dharma. Bhagavad Gita, Ramayana, Mahabharata guidance in Hindi or English.">
+<!-- Clerk JS -->
+<script
+  async
+  crossorigin="anonymous"
+  data-clerk-publishable-key="pk_live_Y2xlcmsuaGluZHVhaS5pbiQ"
+  src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+  type="text/javascript"
+></script>
+<!-- Razorpay -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Tiro+Devanagari+Sanskrit:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -406,10 +405,9 @@ footer {
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
     <a href="#" onclick="openLegal('privacy'); return false;">Privacy</a>
-    <a href="mailto:support@hinduai.in">Contact</a>
-    <a href="#" class="btn-signin" id="navSignInBtn" onclick="openSignIn(); return false;">Sign In ✦</a>
-    <span id="navUserName" style="display:none;font-size:13px;color:var(--gold);font-weight:600;"></span>
-    <a href="#" id="navSignOutBtn" style="display:none;font-size:12px;color:var(--muted);" onclick="doSignOut(); return false;">Sign Out</a>
+    <a href="/cdn-cgi/l/email-protection#6b181e1b1b04191f2b0302050f1e0a02450205">Contact</a>
+    <button class="btn-signin" id="navSignInBtn" onclick="openSignIn()">Sign In ✦</button>
+    <span id="navUserArea" style="display:none;align-items:center;gap:10px;"></span>
   </div>
 </nav>
 
@@ -421,7 +419,7 @@ footer {
   <p class="hero-sub-title">Wisdom of Dharma · Powered by AI</p>
   <p class="hero-desc">Explore the Bhagavad Gita, Ramayana, Mahabharata and all of Sanatan Dharma — guided by AI, in Hindi or English, whenever you need it.</p>
   <div class="hero-btns">
-    <button class="btn-primary" onclick="openSignIn()">🪔 Begin Your Journey</button>
+    <button class="btn-primary" id="heroSignInBtn">🪔 Begin Your Journey</button>
     <a href="#pricing" class="btn-outline">See Plans</a>
   </div>
 </div>
@@ -472,7 +470,7 @@ footer {
           <div class="login-wall-inner">
             <h3>🪔 Begin Your Journey</h3>
             <p>Sign in to unlock AI-powered guidance from<br>Sanatan Dharma's eternal wisdom.</p>
-            <button class="btn-google" onclick="startGoogleLogin()">
+            <button class="btn-google" id="googleSignInBtn2">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -569,7 +567,7 @@ footer {
           <li>Voice input</li>
           <li>General + Scripture modes</li>
         </ul>
-        <button class="btn-plan btn-plan-outline" onclick="openSignIn()">Start Free</button>
+        <button class="btn-plan btn-plan-outline" id="freeBtn">Start Free</button>
       </div>
       <div class="price-card popular">
         <div class="popular-tag">🔥 MOST POPULAR</div>
@@ -587,7 +585,7 @@ footer {
           <li>Priority responses</li>
           <li>Early access: AI Kundali</li>
         </ul>
-        <button class="btn-plan btn-plan-gold" onclick="startPayment(99900,'Annual Seva — ₹999/year')">Begin Premium ✦</button>
+        <button class="btn-plan btn-plan-gold" id="premiumBtn">Begin Premium ✦</button>
       </div>
       <div class="price-card">
         <div class="price-name">Annual Seva</div>
@@ -600,7 +598,7 @@ footer {
           <li>Earliest new features</li>
           <li>Supporter badge</li>
         </ul>
-        <button class="btn-plan btn-plan-outline" onclick="startPayment(99900,'Annual Seva — ₹999/year')">Choose Annual Seva</button>
+        <button class="btn-plan btn-plan-outline" id="annualBtn">Choose Annual Seva</button>
       </div>
     </div>
   </div>
@@ -612,7 +610,7 @@ footer {
     <a href="#" onclick="openLegal('privacy');return false;">Privacy Policy</a>
     <a href="#" onclick="openLegal('terms');return false;">Terms of Service</a>
     <a href="#" onclick="openLegal('refund');return false;">Refund Policy</a>
-    <a href="mailto:support@hinduai.in">support@hinduai.in</a>
+    <a href="/cdn-cgi/l/email-protection#40333530302f32340028292e243521296e292e"><span class="__cf_email__" data-cfemail="65161015150a1711250d0c0b0110040c4b0c0b">[email&#160;protected]</span></a>
   </div>
 </div>
 
@@ -624,7 +622,7 @@ footer {
     <strong>🪔 Spiritual Guidance Disclaimer</strong>
     HinduAI provides AI-generated responses inspired by Hindu scriptures, philosophy and traditions — for educational and inspirational purposes only. This does not replace guidance from qualified gurus, scholars or spiritual teachers. Interpretations may vary across sampradayas. Approach responses with respect and personal discernment. HinduAI does not promote hatred or disrespect toward any religion or individual.
   </div>
-  <div class="footer-copy">© 2025 hinduai.in · सत्यमेव जयते · <a href="mailto:support@hinduai.in">support@hinduai.in</a></div>
+  <div class="footer-copy">© 2025 hinduai.in · सत्यमेव जयते · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7e0d0b0e0e110c0a3e1617101a0b1f17501710">[email&#160;protected]</a></div>
 </footer>
 
 <!-- SIGN IN MODAL -->
@@ -634,7 +632,7 @@ footer {
     <div style="font-size:36px;margin-bottom:12px;">🪔</div>
     <h2>Welcome, Seeker</h2>
     <p>Sign in to receive personalised guidance from Sanatan Dharma — your conversations will be remembered.</p>
-    <button class="btn-google" style="margin:0 auto;display:inline-flex;" onclick="startGoogleLogin()">
+    <button class="btn-google" id="googleSignInBtn" style="margin:0 auto;display:inline-flex;">
       <svg viewBox="0 0 24 24" width="18" height="18">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -656,10 +654,8 @@ footer {
     <p>Unlock unlimited wisdom. All 5 Sacred Modes. Daily Dharma. Priority guidance.</p>
     <p style="color:var(--gold);font-weight:600;margin-bottom:4px;">🎉 Launch Offer: ₹999/year</p>
     <p style="font-size:12px;color:var(--muted);margin-bottom:22px;">Normally ₹1,999 — Save ₹1,000</p>
-    <button class="btn-plan btn-plan-gold" style="margin-bottom:10px;" onclick="startPayment(99900, 'Annual Seva — ₹999/year')">
-Pay ₹999/year · Razorpay
-</button>
-    <button class="btn-plan btn-plan-outline" onclick="startPayment(19900, 'Premium Monthly — ₹199/month')">Monthly ₹199/month</button>
+    <button class="btn-plan btn-plan-gold" id="razorpayYearlyBtn" style="margin-bottom:10px;">Pay ₹999/year · Razorpay</button>
+    <button class="btn-plan btn-plan-outline" id="razorpayMonthlyBtn">Monthly ₹199/month</button>
     <p style="font-size:11px;color:var(--muted);margin-top:12px;margin-bottom:0;">UPI · Cards · Net Banking · Cancel anytime</p>
   </div>
 </div>
@@ -673,338 +669,346 @@ Pay ₹999/year · Razorpay
 </div>
 
 <script>
-// ════════════════════════════════════════════
-// KEYS
-// ════════════════════════════════════════════
-const ANTHROPIC_KEY =  'API_KEY_REMOVED';
-const RAZORPAY_KEY  = 'rzp_live_SVBjCn9RD2Eroo';
-const ADMIN_EMAIL   = 'danriz884@gmail.com';
+// ═══════════════════════════════════════════
+// HINDUAI — ALL FUNCTIONS GLOBAL (no load wrapper)
+// ═══════════════════════════════════════════
 
-// ════════════════════════════════════════════
-// STATE
-// ════════════════════════════════════════════
-let isLoggedIn = false;
-let currentUser = null;
-let questionsLeft = 5;
-let currentMode = 'general';
-let conversationHistory = [];
+// ── STATE ──
+var isLoggedIn = false;
+var questionsLeft = 5;
+var currentMode = 'general';
+var conversationHistory = [];
+var clerkInstance = null;
 
-const FREE_DAILY_LIMIT = 5;
-const TODAY_KEY = 'hinduai_used_' + new Date().toDateString();
-
-function getUsedToday() { return parseInt(localStorage.getItem(TODAY_KEY) || '0'); }
-function incUsed() { localStorage.setItem(TODAY_KEY, getUsedToday() + 1); }
-function isPremium() { return localStorage.getItem('hinduai_premium') === 'true'; }
-
-const modeLabels = {
-  general: 'General Guidance',
-  krishna: 'Ask Krishna Mode',
+// ── MODE LABELS ──
+var modeLabels = {
+  general:   'General Guidance',
+  krishna:   'Ask Krishna Mode',
   scripture: 'Scripture Search',
-  story: 'Story Mode',
-  meditation: 'Meditation Guidance'
+  story:     'Story Mode',
+  meditation:'Meditation Guidance'
 };
 
-const modeSystemPrompts = {
-  general: `You are HinduAI, a wise, warm spiritual guide deeply rooted in Sanatan Dharma. You draw from the Bhagavad Gita, Ramayana, Mahabharata, Upanishads, Puranas, and Vedic philosophy.
+// ── SYSTEM PROMPTS ──
+var modeSystemPrompts = {
+  general: `You are HinduAI, a wise and warm spiritual guide rooted in Sanatan Dharma. Draw from the Bhagavad Gita, Ramayana, Mahabharata, Upanishads, Puranas, and Vedic philosophy.
 
-Your response style:
-- Begin with the most relevant scripture reference (chapter/verse if applicable), formatted as: 📜 [Source] — [Reference]
-- Share the Sanskrit shloka (if applicable) in italics
+Response style:
+- Start with the most relevant scripture reference: 📜 [Source — Chapter/Verse]
+- Share the Sanskrit shloka in italics if applicable
 - Give a clear, warm explanation in simple language
-- Connect it to the seeker's real-life situation meaningfully
-- End with a short "Dharmic Reflection" — one sentence of inner wisdom
-- Use 🪔 or 🕉️ sparingly for warmth, never excessively
-- Respond in the same language the user writes in (Hindi or English)
-- Remember the full conversation context and refer back to it naturally`,
+- Connect it meaningfully to the seeker's situation
+- End with a "🪔 Dharmic Reflection:" — one sentence of inner wisdom
+- Reply in the same language the user writes in (Hindi or English)
+- Remember the full conversation and refer back to earlier questions naturally`,
 
-  krishna: `You are HinduAI channeling the wisdom of Bhagavan Krishna from the Bhagavad Gita. When a seeker asks a life question, respond as Krishna would — calm, clear, profound, without attachment to outcome.
+  krishna: `You are HinduAI channeling the wisdom of Bhagavan Krishna from the Bhagavad Gita. Respond as Krishna — calm, clear, profound, free from attachment.
 
 Style:
-- Address the seeker warmly: "O [Arjuna / dear seeker / child of Dharma]..."
-- Quote or reference a relevant Gita shloka first (format: 🔱 Bhagavad Gita [Ch.X, V.Y])
-- Explain the verse's deeper meaning in simple language
-- Apply it directly to their situation with compassion
-- End with "Thus spoke Krishna:" followed by one timeless line
-- Never preach; only illuminate
-- Remember previous exchanges and build on them`,
+- Address the seeker: "O dear seeker..." or "O child of Dharma..."
+- Open with a relevant Gita shloka: 🔱 Bhagavad Gita [Ch.X, V.Y]
+- Explain its deeper meaning in plain language
+- Apply it compassionately to their situation
+- Close with "Thus spoke Krishna:" followed by one timeless line
+- Never preach — only illuminate
+- Remember and build on previous exchanges`,
 
-  scripture: `You are HinduAI, a precise Dharmic scripture scholar. When asked about any verse, topic, or concept from Hindu scriptures, respond with accuracy and depth.
+  scripture: `You are HinduAI's scripture scholar. Answer with precision and depth about any verse, topic, or concept from Hindu scriptures.
 
 Format:
-- 📖 Source: [Scripture name · Chapter/Section · Verse number if known]
-- Sanskrit (if applicable): [shloka in Devanagari or transliteration]
-- Translation: [clear English/Hindi translation]
-- Meaning: [2-3 sentences of context and meaning]
-- Real-life application: [how this applies today]
-- Related verses: [1-2 other relevant references]
-Remember conversation history to build on previous scripture discussions.`,
+📖 Source: [Scripture · Chapter · Verse]
+Sanskrit: [Devanagari or transliteration]
+Translation: [clear English/Hindi]
+Meaning: [2-3 sentences of context]
+Real-life application: [how this applies today]
+Related: [1-2 other relevant references]
+Build on previous scripture discussions in this conversation.`,
 
-  story: `You are HinduAI's Story Mode — a master storyteller of Sanatan Dharma's epics. Tell stories from Ramayana, Mahabharata, Puranas, and Vedic lore that illuminate timeless truths.
+  story: `You are HinduAI's storyteller of Sanatan Dharma's epics — Ramayana, Mahabharata, Puranas, Vedic lore.
 
-Story format:
-- 🏹 Story Title (in bold)
-- Brief context (1-2 lines)
-- The story itself — vivid, engaging, respectful (3-5 paragraphs)
-- 🌿 Moral: [core lesson]
-- 💡 Real-life meaning: [how this applies today]
-- Ask the seeker: "Would you like to explore another aspect of this story?"
-Remember what stories you've told and avoid repetition.`,
+Format:
+🏹 **Story Title**
+Brief context (1-2 lines)
+The story — vivid, engaging, respectful (3-5 paragraphs)
+🌿 Moral: [core lesson]
+💡 Real-life meaning: [modern application]
+End by asking: "Would you like to explore another aspect of this story?"
+Avoid repeating stories already told in this session.`,
 
-  meditation: `You are HinduAI's Meditation Guide, drawing from Vedic, Yogic, and Tantric traditions of Sanatan Dharma.
+  meditation: `You are HinduAI's Meditation Guide drawing from Vedic, Yogic, and Tantric traditions.
 
-Format for each meditation:
-- 🧘 Practice Name
-- Tradition: [Vedic / Yogic / Tantric / Bhakti]
-- Duration: [suggested time]
-- Preparation: [posture, setting]
-- Breathing: [specific pranayama if applicable]
-- Mantra: [Sanskrit mantra with meaning, if applicable]
-- Visualization / Focus: [step-by-step guidance]
-- Closing: [how to end the session]
-- 🌅 Reflection: [one contemplative question to sit with]
-Tailor guidance to what the seeker has shared in the conversation.`
+Format:
+🧘 Practice Name
+Tradition: [Vedic / Yogic / Bhakti]
+Duration: [time]
+Preparation: [posture, setting]
+Breathing: [pranayama if applicable]
+Mantra: [Sanskrit mantra + meaning]
+Focus: [step-by-step guidance]
+Closing: [how to end]
+🌅 Reflection: [one contemplative question]
+Tailor the practice to what the seeker has shared.`
 };
 
-// ════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════
-window.addEventListener('load', function() {
-  // Restore session from localStorage
-  const saved = localStorage.getItem('hinduai_user');
-  if (saved) {
-    try {
-      currentUser = JSON.parse(saved);
-      activateChat(currentUser);
-    } catch(e) { localStorage.removeItem('hinduai_user'); }
-  }
-  updateQuestionsBar();
-});
-
-// ════════════════════════════════════════════
-// GOOGLE SIGN-IN (OAuth2 popup — works on any domain)
-// ════════════════════════════════════════════
-const GOOGLE_CLIENT_ID = '6938777749-jsgu64psj4h8o28jjbna73lkofd2ps1s.apps.googleusercontent.com';
-
-function startGoogleLogin() {
-  // Build OAuth2 URL for popup
-  const params = new URLSearchParams({
-    client_id: GOOGLE_CLIENT_ID,
-    redirect_uri: window.location.origin + window.location.pathname,
-    response_type: 'token',
-    scope: 'openid profile email',
-    state: 'hinduai_login'
-  });
-  const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
-  const popup = window.open(url, 'GoogleLogin', 'width=500,height=620,left=200,top=100');
-
-  // Poll for redirect with token
-  const poll = setInterval(async () => {
-    try {
-      if (!popup || popup.closed) { clearInterval(poll); return; }
-      const href = popup.location.href;
-      if (href && href.includes(window.location.origin)) {
-        clearInterval(poll);
-        popup.close();
-        const hash = href.split('#')[1] || '';
-        const params = new URLSearchParams(hash);
-        const token = params.get('access_token');
-        if (token) await fetchGoogleProfile(token);
-      }
-    } catch(e) { /* cross-origin — still loading */ }
-  }, 300);
+// ═══════════════════════════════════════════
+// MODAL FUNCTIONS — defined immediately, globally
+// ═══════════════════════════════════════════
+function openSignIn() {
+  document.getElementById('signInModal').classList.add('open');
 }
 
-async function fetchGoogleProfile(token) {
-  try {
-    const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
-    const p = await res.json();
-    const user = { name: p.name, email: p.email, picture: p.picture, loginType: 'google' };
-    localStorage.setItem('hinduai_user', JSON.stringify(user));
-    saveCustomerRecord(user);
-    activateChat(user);
-    closeModal('signInModal');
-  } catch(e) {
-    console.error('Google profile fetch failed', e);
-    // Fallback — ask for name
-    const name = prompt('Could not fetch your Google profile.\nPlease enter your name to continue:');
-    if (name && name.trim()) nameOnlyLogin(name.trim());
-  }
+function closeSignIn() {
+  document.getElementById('signInModal').classList.remove('open');
 }
 
-function nameOnlyLogin(name) {
-  const user = { name: name, email: null, picture: null, loginType: 'name' };
-  localStorage.setItem('hinduai_user', JSON.stringify(user));
-  activateChat(user);
-  closeModal('signInModal');
+function openUpgrade() {
+  document.getElementById('upgradeModal').classList.add('open');
 }
 
-function doSignOut() {
-  localStorage.removeItem('hinduai_user');
-  currentUser = null; isLoggedIn = false;
-  location.reload();
+function closeUpgrade() {
+  document.getElementById('upgradeModal').classList.remove('open');
 }
 
-function activateChat(user) {
-  currentUser = user;
+function closeModal(id) {
+  var el = document.getElementById(id);
+  if (el) el.classList.remove('open');
+}
+
+function openLegal(type) {
+  var legalContent = {
+    privacy: '<h2>🔒 Privacy Policy</h2><p><em>Last updated: January 2025</em></p><h3>Information We Collect</h3><p>When you use HinduAI, we may collect:</p><ul><li><strong>Login data:</strong> Name and email when you sign in with Google.</li><li><strong>Usage data:</strong> Questions asked, session duration, features used.</li><li><strong>Payment data:</strong> Processed via Razorpay. We never store card numbers.</li><li><strong>Device data:</strong> Browser type, IP address (for security).</li></ul><h3>Cookies & Analytics</h3><p>We use cookies for sessions and Google Analytics (anonymised) to understand usage. You may disable cookies in your browser.</p><h3>How We Use Your Data</h3><ul><li>To provide and improve AI guidance</li><li>To manage subscriptions and payments</li><li>To send important service updates</li><li>To comply with legal obligations</li></ul><h3>Data Sharing</h3><p>We do not sell your data. We share only with trusted providers (Google Auth, Razorpay, Google Analytics) under strict agreements.</p><h3>Your Rights</h3><p>Request access, correction or deletion at <a href="mailto:support@hinduai.in">support@hinduai.in</a>.</p>',
+
+    terms: '<h2>📜 Terms of Service</h2><p><em>Last updated: January 2025</em></p><h3>Acceptance</h3><p>By using HinduAI, you agree to these Terms.</p><h3>AI Limitations</h3><p>HinduAI provides AI-generated responses for educational and inspirational purposes only. Responses may contain inaccuracies. HinduAI is not a substitute for qualified spiritual guidance or a certified guru.</p><h3>User Responsibility</h3><ul><li>Use HinduAI only for lawful, respectful purposes</li><li>Do not attempt to manipulate AI responses</li><li>Maintain respectful language at all times</li></ul><h3>Prohibited Use</h3><ul><li>Promoting hatred or violence against any religion or group</li><li>Generating or spreading misinformation</li><li>Reverse-engineering or scraping the platform</li><li>Commercial use without written permission</li></ul><h3>Subscriptions</h3><p>Paid plans billed via Razorpay. Cancel anytime; access continues to end of billing period.</p><p><a href="mailto:support@hinduai.in">support@hinduai.in</a></p>',
+
+    refund: '<h2>💳 Refund Policy</h2><p><em>Last updated: January 2025</em></p><p>Refund requests must be submitted within <strong>7 days of purchase</strong> and are reviewed case by case.</p><h3>Eligibility</h3><ul><li>Request within 7 days of purchase</li><li>Refunds not provided if significant usage has occurred</li><li>Annual plan requests assessed individually</li></ul><h3>Technical Issues</h3><p>If a technical problem prevents you from using the service, contact us for resolution or refund.</p><h3>How to Request</h3><p>Email <a href="mailto:support@hinduai.in">support@hinduai.in</a> with your registered email, payment date, and reason. We respond within 3 business days.</p><h3>Razorpay Disputes</h3><p>If you raise a dispute through Razorpay without contacting us first, we reserve the right to contest it with evidence of service delivery.</p>'
+  };
+  document.getElementById('legalBody').innerHTML = legalContent[type] || '';
+  document.getElementById('legalModal').classList.add('open');
+}
+
+function closeLegal() {
+  document.getElementById('legalModal').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════
+// AUTH — CLERK + LOGIN STATE
+// ═══════════════════════════════════════════
+function onUserLoggedIn(user) {
   isLoggedIn = true;
+  var name = (user && user.firstName) ? user.firstName : 'Seeker';
 
-  // Hide login wall
-  document.getElementById('loginWall').style.display = 'none';
+  // Remove login wall
+  var wall = document.getElementById('loginWall');
+  if (wall) wall.style.display = 'none';
 
-  // Enable input
-  document.getElementById('chatInput').disabled = false;
-  document.getElementById('chatInput').placeholder = 'Ask about Dharma, Gita, life... (Hindi or English)';
-  document.getElementById('sendBtn').disabled = false;
-  document.getElementById('questionsLeft').style.display = 'block';
+  // Enable chat input
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('sendBtn');
+  if (input) { input.disabled = false; input.placeholder = 'Ask about Dharma, Gita, life... (Hindi or English)'; }
+  if (sendBtn) sendBtn.disabled = false;
+
+  // Show question counter
+  var ql = document.getElementById('questionsLeft');
+  if (ql) ql.style.display = 'block';
 
   // Update nav
-  const firstName = user.name.split(' ')[0];
-  const navSignIn = document.getElementById('navSignInBtn');
-  const navName   = document.getElementById('navUserName');
-  const navOut    = document.getElementById('navSignOutBtn');
+  var navSignIn = document.getElementById('navSignInBtn');
+  var navUser = document.getElementById('navUserArea');
   if (navSignIn) navSignIn.style.display = 'none';
-  if (navName)  { navName.textContent = '🙏 ' + firstName; navName.style.display = 'inline'; }
-  if (navOut)   navOut.style.display = 'inline';
+  if (navUser) {
+    navUser.style.display = 'flex';
+    navUser.innerHTML = '<span style="font-size:13px;color:var(--gold);">🪔 ' + name + '</span>' +
+      '<button onclick="triggerClerkSignOut()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:7px;font-size:12px;cursor:pointer;font-family:\'DM Sans\',sans-serif;">Sign Out</button>';
+  }
 
+  // Close sign-in modal
   closeModal('signInModal');
-  updateQuestionsBar();
 
   // Welcome message
-  addAIMessage(null, `🙏 Namaste, ${firstName}! Welcome to HinduAI.\n\nI am ready to guide you. Choose a mode above, or simply ask your question.\n\n*What is weighing on your heart today?*`);
-}
-
-// ════════════════════════════════════════════
-// QUESTIONS COUNTER
-// ════════════════════════════════════════════
-function updateQuestionsBar() {
-  if (isPremium()) {
-    const bar = document.getElementById('questionsLeft');
-    if (bar) bar.innerHTML = '✦ Premium — Unlimited guidance active';
-    questionsLeft = 99999;
-    return;
-  }
-  questionsLeft = Math.max(0, FREE_DAILY_LIMIT - getUsedToday());
-  const el = document.getElementById('qCount');
-  if (el) el.textContent = questionsLeft;
-  if (questionsLeft === 0) {
-    const inp = document.getElementById('chatInput');
-    if (inp) inp.placeholder = 'Upgrade for unlimited guidance ✦';
+  if (conversationHistory.length === 0) {
+    setTimeout(function() {
+      addAIMessage('🙏 Namaste, ' + name + '!\n\nI am ready to guide you with wisdom from the Bhagavad Gita, Ramayana, Mahabharata and all of Sanatan Dharma.\n\nChoose a mode above, or simply share what is on your heart today. 🪔');
+    }, 300);
   }
 }
 
-// ════════════════════════════════════════════
-// CUSTOMER RECORDS (localStorage admin)
-// ════════════════════════════════════════════
-function saveCustomerRecord(user) {
-  let list = JSON.parse(localStorage.getItem('hinduai_customers') || '[]');
-  const idx = list.findIndex(c => c.email === user.email);
-  const rec = {
-    name: user.name,
-    email: user.email || '—',
-    plan: isPremium() ? 'premium' : 'free',
-    joined: idx >= 0 ? list[idx].joined : new Date().toLocaleDateString('en-IN'),
-    lastSeen: new Date().toLocaleDateString('en-IN')
-  };
-  if (idx >= 0) list[idx] = rec; else list.push(rec);
-  localStorage.setItem('hinduai_customers', JSON.stringify(list));
+function onUserLoggedOut() {
+  isLoggedIn = false;
+  conversationHistory = [];
+  var wall = document.getElementById('loginWall');
+  if (wall) wall.style.display = 'flex';
+  var input = document.getElementById('chatInput');
+  if (input) { input.disabled = true; input.placeholder = 'Sign in to ask...'; }
+  var navSignIn = document.getElementById('navSignInBtn');
+  var navUser = document.getElementById('navUserArea');
+  if (navSignIn) navSignIn.style.display = 'inline-flex';
+  if (navUser) navUser.style.display = 'none';
 }
 
-// ════════════════════════════════════════════
-// MODALS
-// ════════════════════════════════════════════
-function openSignIn() { document.getElementById('signInModal').classList.add('open'); }
-function openUpgrade() { document.getElementById('upgradeModal').classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function triggerClerkSignIn() {
+  if (clerkInstance) {
+    closeModal('signInModal');
+    clerkInstance.openSignIn({ redirectUrl: window.location.href });
+  } else {
+    // Fallback for local/preview testing
+    onUserLoggedIn({ firstName: 'Seeker' });
+  }
+}
 
+function triggerClerkSignOut() {
+  if (clerkInstance) {
+    clerkInstance.signOut();
+  } else {
+    onUserLoggedOut();
+  }
+}
+
+// ── Init Clerk when SDK ready ──
 document.addEventListener('DOMContentLoaded', function() {
-  ['signInModal','upgradeModal'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('click', function(e) { if (e.target === this) closeModal(id); });
+  // Wire click-outside-to-close for modals
+  document.addEventListener('click', function(e) {
+    ['signInModal','upgradeModal'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el && e.target === el) closeModal(id);
+    });
   });
+
+  // Init Clerk asynchronously — does not block buttons
+  (function initClerk() {
+    if (window.Clerk) {
+      window.Clerk.load().then(function() {
+        clerkInstance = window.Clerk;
+        if (clerkInstance.user) {
+          onUserLoggedIn(clerkInstance.user);
+        }
+        clerkInstance.addListener(function(resources) {
+          if (resources.user) onUserLoggedIn(resources.user);
+          else onUserLoggedOut();
+        });
+      }).catch(function(e) { console.warn('Clerk load error:', e); });
+    } else {
+      // Clerk SDK not loaded yet, retry
+      setTimeout(initClerk, 500);
+    }
+  })();
 });
 
-// ════════════════════════════════════════════
-// MODE
-// ════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// RAZORPAY
+// ═══════════════════════════════════════════
+function openRazorpay(plan) {
+  if (!isLoggedIn) { openSignIn(); return; }
+  closeModal('upgradeModal');
+
+  var email = '';
+  var name = '';
+  if (clerkInstance && clerkInstance.user) {
+    email = (clerkInstance.user.primaryEmailAddress && clerkInstance.user.primaryEmailAddress.emailAddress) || '';
+    name = clerkInstance.user.fullName || '';
+  }
+
+  var options = {
+    key: 'rzp_live_SVBjCn9RD2Eroo',
+    amount: plan === 'yearly' ? 99900 : 19900,
+    currency: 'INR',
+    name: 'HinduAI',
+    description: plan === 'yearly' ? 'Annual Seva — ₹999/year' : 'Premium — ₹199/month',
+    image: 'https://hinduai.in/favicon.ico',
+    prefill: { email: email, name: name },
+    theme: { color: '#D4A017' },
+    handler: function(response) {
+      questionsLeft = 999999;
+      addAIMessage('🙏 Thank you for your Seva! Your Premium plan is now active.\n\nPayment ID: ' + response.razorpay_payment_id + '\n\nYou now have unlimited access to all Sacred Modes. Jai Shri Ram 🪔');
+    },
+    modal: { ondismiss: function() {} }
+  };
+
+  if (typeof Razorpay !== 'undefined') {
+    var rzp = new Razorpay(options);
+    rzp.open();
+  } else {
+    alert('Razorpay is loading. Please try again in a moment.');
+  }
+}
+
+// ═══════════════════════════════════════════
+// CHAT
+// ═══════════════════════════════════════════
 function setMode(btn, mode) {
-  document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.mode-pill').forEach(function(p) { p.classList.remove('active'); });
   btn.classList.add('active');
   currentMode = mode;
   document.getElementById('modeBadge').textContent = modeLabels[mode];
-}
-
-// ════════════════════════════════════════════
-// CHAT
-// ════════════════════════════════════════════
-function addUserMessage(text) {
-  const msgs = document.getElementById('chatMessages');
-  const div = document.createElement('div');
-  div.className = 'msg msg-user';
-  div.innerHTML = `<span class="msg-label" style="text-align:right;">You</span><div class="bubble">${escHtml(text)}</div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function addTypingIndicator() {
-  const msgs = document.getElementById('chatMessages');
-  const div = document.createElement('div');
-  div.className = 'msg msg-ai'; div.id = 'typingIndicator';
-  div.innerHTML = `<span class="msg-label">HinduAI</span><div class="bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function removeTypingIndicator() {
-  const el = document.getElementById('typingIndicator');
-  if (el) el.remove();
-}
-
-function addAIMessage(rawText, fallback) {
-  removeTypingIndicator();
-  const msgs = document.getElementById('chatMessages');
-  const div = document.createElement('div');
-  div.className = 'msg msg-ai';
-  const text = rawText || fallback || '';
-  const formatted = text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\n/g, '<br>');
-  div.innerHTML = `<span class="msg-label">HinduAI</span><div class="bubble"><span class="ai-body">${formatted}</span></div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
 }
 
 function escHtml(t) {
   return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+function formatText(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br>');
+}
+
+function addUserMessage(text) {
+  var msgs = document.getElementById('chatMessages');
+  var div = document.createElement('div');
+  div.className = 'msg msg-user';
+  div.innerHTML = '<span class="msg-label" style="text-align:right;">You</span><div class="bubble">' + escHtml(text) + '</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addTypingIndicator() {
+  var msgs = document.getElementById('chatMessages');
+  var div = document.createElement('div');
+  div.className = 'msg msg-ai';
+  div.id = 'typingIndicator';
+  div.innerHTML = '<span class="msg-label">HinduAI</span><div class="bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  var el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+function addAIMessage(text) {
+  removeTypingIndicator();
+  var msgs = document.getElementById('chatMessages');
+  var div = document.createElement('div');
+  div.className = 'msg msg-ai';
+  div.innerHTML = '<span class="msg-label">HinduAI</span><div class="bubble"><span class="ai-body">' + formatText(text) + '</span></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
 async function sendMessage() {
   if (!isLoggedIn) { openSignIn(); return; }
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
+
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
   if (!text) return;
 
-  if (!isPremium() && getUsedToday() >= FREE_DAILY_LIMIT) {
-    openUpgrade(); return;
-  }
+  if (questionsLeft <= 0) { openUpgrade(); return; }
 
-  input.value = ''; input.style.height = 'auto';
+  input.value = '';
+  input.style.height = 'auto';
   document.getElementById('sendBtn').disabled = true;
   input.disabled = true;
 
   addUserMessage(text);
   addTypingIndicator();
+
   conversationHistory.push({ role: 'user', content: text });
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        headers: {
-  'Content-Type': 'application/json'
-}
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -1013,23 +1017,24 @@ async function sendMessage() {
       })
     });
 
-    const data = await response.json();
-    const aiText = data?.content?.[0]?.text;
+    var data = await response.json();
+    var aiText = (data.content && data.content[0] && data.content[0].text)
+      ? data.content[0].text
+      : '🙏 I am here, dear seeker. Please ask your question again.';
 
-    if (aiText) {
-      conversationHistory.push({ role: 'assistant', content: aiText });
-      addAIMessage(aiText);
-      if (!isPremium()) {
-        incUsed();
-        updateQuestionsBar();
+    conversationHistory.push({ role: 'assistant', content: aiText });
+    addAIMessage(aiText);
+
+    if (questionsLeft < 999999) {
+      questionsLeft--;
+      document.getElementById('qCount').textContent = questionsLeft;
+      if (questionsLeft <= 0) {
+        input.placeholder = 'Upgrade for unlimited guidance ✦';
       }
-    } else {
-      const errMsg = data?.error?.message || 'Unknown error';
-      addAIMessage(null, `⚠️ ${errMsg}\n\nPlease try again, dear seeker. 🙏`);
     }
 
-  } catch (err) {
-    addAIMessage(null, '🙏 I encountered a brief interruption. Please try again, dear seeker.');
+  } catch(err) {
+    addAIMessage('🙏 I encountered a brief interruption. Please try again, dear seeker.');
     console.error(err);
   }
 
@@ -1037,103 +1042,6 @@ async function sendMessage() {
   input.disabled = false;
   input.focus();
 }
-
-// ════════════════════════════════════════════
-// RAZORPAY PAYMENT
-// ════════════════════════════════════════════
-function startPayment(planAmount, planLabel) {
-  const amount = planAmount || 99900; // default ₹999 annual in paise
-  const label  = planLabel  || 'Annual Seva — ₹999/year';
-
-  if (typeof Razorpay === 'undefined') {
-    alert('Razorpay is loading. Please wait a moment and try again.');
-    return;
-  }
-
-  const options = {
-    key: RAZORPAY_KEY,
-    amount: amount,
-    currency: 'INR',
-    name: 'HinduAI',
-    description: label,
-    image: 'https://hinduai.in/favicon.ico',
-    prefill: {
-      name: currentUser?.name || '',
-      email: currentUser?.email || ''
-    },
-    theme: { color: '#D4A017' },
-    handler: function(response) {
-      // Payment successful
-      localStorage.setItem('hinduai_premium', 'true');
-      localStorage.setItem('hinduai_plan', label);
-      if (currentUser) {
-        currentUser.plan = label;
-        localStorage.setItem('hinduai_user', JSON.stringify(currentUser));
-        saveCustomerRecord(currentUser);
-      }
-      closeModal('upgradeModal');
-      updateQuestionsBar();
-      addAIMessage(null, `🙏 Payment successful! Unlimited access is now active.\n\nMay Dharma guide your path always. Jai Shri Ram! 🪔`);
-    },
-    modal: {
-      ondismiss: function() { console.log('Payment dismissed'); }
-    }
-  };
-
-  const rzp = new Razorpay(options);
-  rzp.on('payment.failed', function(r) {
-    addAIMessage(null, `⚠️ Payment could not be completed: ${r.error.description}.\n\nPlease try again or contact support@hinduai.in 🙏`);
-  });
-  rzp.open();
-}
-
-// ════════════════════════════════════════════
-// LEGAL
-// ════════════════════════════════════════════
-const legalContent = {
-  privacy: `<h2>🔒 Privacy Policy</h2>
-<p><em>Last updated: January 2025</em></p>
-<h3>Information We Collect</h3>
-<ul>
-<li><strong>Login data:</strong> Name and email address when you sign in with Google.</li>
-<li><strong>Usage data:</strong> Questions asked, session duration, features used.</li>
-<li><strong>Payment data:</strong> Processed securely via Razorpay. We do not store card numbers.</li>
-<li><strong>Device data:</strong> Browser type, IP address (for security).</li>
-</ul>
-<h3>Cookies & Analytics</h3>
-<p>We use cookies for session management and Google Analytics (anonymised). You may disable cookies in your browser settings.</p>
-<h3>How We Use Your Data</h3>
-<ul><li>To provide and improve AI guidance</li><li>To manage your subscription and payments</li><li>To send important service updates</li><li>To comply with legal obligations</li></ul>
-<h3>Data Sharing</h3>
-<p>We do not sell your personal data. Data is shared only with trusted providers (Google Auth, Razorpay, Google Analytics) under strict agreements.</p>
-<h3>Your Rights</h3>
-<p>Request access, correction, or deletion of your data at <a href="mailto:support@hinduai.in">support@hinduai.in</a>.</p>`,
-
-  terms: `<h2>📜 Terms of Service</h2>
-<p><em>Last updated: January 2025</em></p>
-<h3>Acceptance</h3>
-<p>By using HinduAI, you agree to these Terms.</p>
-<h3>AI Limitations</h3>
-<p>HinduAI provides AI-generated responses for educational and inspirational purposes only. Not a substitute for qualified spiritual guidance or a certified guru.</p>
-<h3>User Responsibility</h3>
-<ul><li>Use HinduAI only for lawful, respectful purposes</li><li>Do not attempt to manipulate AI responses</li><li>Maintain respectful language in all interactions</li></ul>
-<h3>Prohibited Use</h3>
-<ul><li>Promoting hatred, discrimination, or violence against any religion or group</li><li>Generating or spreading misinformation</li><li>Reverse-engineering or scraping the platform</li></ul>
-<h3>Subscriptions</h3>
-<p>Paid plans are billed via Razorpay. Cancel anytime; access continues to end of billing period.</p>
-<p>Contact: <a href="mailto:support@hinduai.in">support@hinduai.in</a></p>`,
-
-  refund: `<h2>💳 Refund Policy</h2>
-<p><em>Last updated: January 2025</em></p>
-<p>Refund requests must be submitted within <strong>7 days of purchase</strong> and are evaluated on a case-by-case basis.</p>
-<h3>Eligibility</h3>
-<ul><li>Request within 7 days of purchase</li><li>Refunds generally not provided if significant usage has occurred</li></ul>
-<h3>How to Request</h3>
-<p>Email <a href="mailto:support@hinduai.in">support@hinduai.in</a> with your registered email, payment date, and reason. We respond within 3 business days.</p>`
-};
-
-function openLegal(type) {
-  document.getElementById('legalBody').innerHTML = legalContent[type] || '';
-  document.getElementById('legalModal').classList.add('open');
-}
-function closeLegal() { document.getElementById('legalModal').classList.remove('open'); }
+</script>
+</body>
+</html>

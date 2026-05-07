@@ -16,42 +16,68 @@
 <body>
 
 <nav>
-  <div class="nav-logo"><span class="om">ॐ</span> HINDU AI</div>
-  <div class="nav-right" id="nav-right">
-    <button class="btn-sm btn-outline" onclick="scrollToChat()">Try Free</button>
-    <button class="btn-sm btn-gold" onclick="showPayModal()">Upgrade ✦</button>
-  <button class="btn-sm btn-outline" onclick="showLoginModal()" id="login-btn">Sign In</button>
-  </div>
-</nav>
+    <div class="nav-logo"><span class="om">ॐ</span> HINDUAI</div>
+    <div class="nav-links-center">
+      <a class="nav-link" href="/blog/">Blog</a>
+      <a class="nav-link" href="/shop/">Shop</a>
+      <a class="nav-link" href="#pricing">Plans</a>
+    </div>
+    <div class="nav-right" id="nav-right">
+      <button class="btn-sm btn-outline" onclick="showLoginModal()" id="login-btn">Sign In</button>
+      <button class="btn-sm btn-gold" onclick="showPayModal()">Upgrade</button>
+    </div>
+  </nav>
 
-<section class="hero">
-  <svg class="mandala" viewBox="0 0 400 400" fill="none">
-    <circle cx="200" cy="200" r="190" stroke="#f5c842" stroke-width="0.5"/>
-    <circle cx="200" cy="200" r="150" stroke="#f5c842" stroke-width="0.5"/>
-    <circle cx="200" cy="200" r="110" stroke="#f5c842" stroke-width="0.5"/>
-    <circle cx="200" cy="200" r="70" stroke="#f5c842" stroke-width="0.5"/>
-    <circle cx="200" cy="200" r="35" stroke="#f5c842" stroke-width="0.5"/>
-    <line x1="200" y1="10" x2="200" y2="390" stroke="#f5c842" stroke-width="0.4"/>
-    <line x1="10" y1="200" x2="390" y2="200" stroke="#f5c842" stroke-width="0.4"/>
-    <line x1="55" y1="55" x2="345" y2="345" stroke="#f5c842" stroke-width="0.4"/>
-    <line x1="345" y1="55" x2="55" y2="345" stroke="#f5c842" stroke-width="0.4"/>
-    <polygon points="200,15 382,310 18,310" stroke="#f5c842" stroke-width="0.5" fill="none"/>
-    <polygon points="200,385 18,90 382,90" stroke="#f5c842" stroke-width="0.5" fill="none"/>
-  </svg>
-  <div class="hero-om">ॐ</div>
-  <h1>HINDU AI</h1>
-  <div class="hero-sub">Ancient Wisdom · Modern Guidance</div>
-  <p class="hero-desc">Receive guidance from the Bhagavad Gita, Ramayana, Mahabharata and the timeless teachings of Sanatan Dharma — in Hindi or English, whenever you need it.</p>
-  <div class="hero-btns">
-    <button class="btn-primary" onclick="scrollToChat()">Ask Your Question</button>
-    <button class="btn-secondary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">View Plans</button>
-  </div>
-  <div class="stats">
-    <div><div class="stat-num">5,000+</div><div class="stat-label">Seekers Guided</div></div>
-    <div><div class="stat-num">3</div><div class="stat-label">Sacred Texts</div></div>
-    <div><div class="stat-num">24/7</div><div class="stat-label">Always Available</div></div>
-  </div>
-</section>
+<section class="hero" id="hero">
+    <!-- LEFT: Spherical particles + branding overlay -->
+    <div class="hero-sphere-panel">
+      <canvas id="sphere-canvas"></canvas>
+      <div class="hero-sphere-overlay">
+        <div class="hero-sphere-title">HINDUAI</div>
+        <div class="hero-sphere-sub">Ancient wisdom meets modern intelligence</div>
+        <div class="hero-sphere-verse">
+          <div id="sphere-verse-text" style="font-style:italic;color:rgba(245,215,130,0.72);font-size:clamp(11px,1.4vw,13px);line-height:1.7;max-width:300px;text-align:center;text-transform:uppercase;letter-spacing:.5px"></div>
+          <div id="sphere-verse-src" style="font-size:10px;color:rgba(245,200,66,0.42);margin-top:4px;letter-spacing:1px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Chat panel -->
+    <div class="hero-chat-panel" id="chat">
+      <div class="chat-box">
+        <div class="chat-hdr">
+          <div class="chat-hdr-l">
+            <span class="chat-hdr-om">🔥</span>
+            <div>
+              <div class="chat-title" style="letter-spacing:3px;font-size:10px;color:var(--text-dim)">ORACLE</div>
+            </div>
+          </div>
+          <div class="chat-hdr-r">
+            <button class="lang-btn act" id="btn-en" onclick="setLang('en')">English</button>
+            <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">Hindi</button>
+            <button class="lang-btn" onclick="setLang('hi')">Hinglish</button>
+          </div>
+        </div>
+        <div class="msgs" id="messages">
+          <div class="welcome-msg" id="welcome">
+            <p><strong style="color:var(--gold)">🔥 Namaste!</strong> I am HinduAI — your guide to the wisdom of the Vedas, Upanishads, Bhagavad Gita, and Hindu philosophy. Ask me anything about dharma, karma, meditation, yoga, or the sacred texts.</p>
+          </div>
+        </div>
+        <div class="voice-status" id="vstatus">🎙 Listening... speak now</div>
+        <div class="suggs" id="suggs"></div>
+        <div class="limit-bar" id="limit-bar">
+          <div class="limit-txt">Free: <span id="msgs-left">5</span> questions remaining today</div>
+          <span class="upgrade-link" onclick="showPayModal()">Upgrade for unlimited ✦</span>
+        </div>
+        <div class="input-row">
+          <button class="input-icon-btn" onclick="clearChat()" title="Clear chat">🗑</button>
+          <textarea class="inp" id="inp" placeholder="Ask your question..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="mic-inp-btn" id="mic-inp" onclick="toggleVoice()">🎤</button>
+          <button class="send" id="send-btn" onclick="sendMsg()">➤</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
 <div class="votd">
   <div class="votd-tag">🌅 Verse of the Day</div>
@@ -119,39 +145,7 @@
   </div>
 </section>
 
-<section class="chat-section" id="chat">
-  <div class="sec-title"><h2>Ask the Guide</h2><p>Share what is in your heart</p></div>
-  <div class="chat-box">
-    <div class="chat-hdr">
-      <div class="chat-hdr-l">
-        <span class="chat-hdr-om">ॐ</span>
-        <div><div class="chat-title">HINDU AI</div><div class="chat-subtitle">Your dharmic companion</div></div>
-      </div>
-      <div class="chat-hdr-r">
-        <button class="lang-btn act" id="btn-en" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिं</button>
-        <button class="mic-btn" id="mic-hdr" onclick="toggleVoice()" title="Voice">🎤</button>
-      </div>
-    </div>
-    <div class="msgs" id="messages">
-      <div class="welcome-msg" id="welcome">
-        <span class="welcome-om">🪔</span>
-        <p>Namaste, dear seeker.<br>I am here to guide you with wisdom from the <span>Bhagavad Gita</span>, <span>Ramayana</span>, <span>Mahabharata</span> and our sacred Dharma.<br><br>Share what is in your heart.</p>
-      </div>
-    </div>
-    <div class="voice-status" id="vstatus">🎙 Listening... speak now</div>
-    <div class="suggs" id="suggs"></div>
-    <div class="limit-bar" id="limit-bar">
-      <div class="limit-txt">Free: <span id="msgs-left">5</span> questions remaining today</div>
-      <span class="upgrade-link" onclick="showPayModal()">Upgrade for unlimited ✦</span>
-    </div>
-    <div class="input-row">
-      <textarea class="inp" id="inp" placeholder="Ask your question, share your thoughts..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-      <button class="mic-inp-btn" id="mic-inp" onclick="toggleVoice()">🎤</button>
-      <button class="send" id="send-btn" onclick="sendMsg()">➤</button>
-    </div>
-  </div>
-</section>
+<!-- Chat is now in the hero section above -->
 
 <!-- Customer Records (visible only when logged in as admin) -->
 <section class="admin-section" id="admin-section">
@@ -698,5 +692,141 @@ window.addEventListener('load', initClerk);
   data-clerk-publishable-key="pk_live_Y2xlcmsuaGluZHVhaS5pbiQ"
   src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js">
 </script>
+
+  <script>
+  // ── Spherical Particles (converted from Replit SphericalParticles.tsx) ─────────
+  (function() {
+    const canvas = document.getElementById('sphere-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const parent = canvas.parentElement;
+
+    let w, h, RADIUS, pts, angleY = 0, angleX = 0.15, time = 0, animId;
+    const COUNT = 2000;
+
+    function buildSphere(radius) {
+      const ps = [];
+      for (let i = 0; i < COUNT; i++) {
+        const theta = Math.acos(1 - 2 * (i + 0.5) / COUNT);
+        const phi = Math.PI * (1 + Math.sqrt(5)) * i;
+        ps.push({
+          ox: radius * Math.sin(theta) * Math.cos(phi),
+          oy: radius * Math.cos(theta),
+          oz: radius * Math.sin(theta) * Math.sin(phi),
+          hue: 22 + (i % 28),
+          sat: 72 + (i % 25)
+        });
+      }
+      return ps;
+    }
+
+    function resize() {
+      w = parent.clientWidth;
+      h = parent.clientHeight;
+      canvas.width = w;
+      canvas.height = h;
+      RADIUS = Math.min(w, h) * 0.38;
+      pts = buildSphere(RADIUS);
+    }
+
+    function project(x, y, z) {
+      const fov = 700;
+      const s = fov / (fov + z + RADIUS * 1.1);
+      return { sx: x * s + w / 2, sy: y * s + h / 2, scale: s };
+    }
+
+    function rotateY(x, y, z, a) {
+      const c = Math.cos(a), s = Math.sin(a);
+      return { x: x * c - z * s, y, z: x * s + z * c };
+    }
+
+    function rotateX(x, y, z, a) {
+      const c = Math.cos(a), s = Math.sin(a);
+      return { x, y: y * c - z * s, z: y * s + z * c };
+    }
+
+    function draw() {
+      animId = requestAnimationFrame(draw);
+      if (!w || !h || !RADIUS) return;
+
+      time += 0.011;
+      angleY += 0.0025;
+      angleX = 0.15 + Math.sin(time * 0.08) * 0.06;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const grd = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, RADIUS * 1.5);
+      grd.addColorStop(0, 'rgba(220,130,10,0.08)');
+      grd.addColorStop(0.6, 'rgba(180,80,5,0.04)');
+      grd.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, w, h);
+
+      const projected = pts.map((p, i) => {
+        let r = rotateY(p.ox, p.oy, p.oz, angleY);
+        r = rotateX(r.x, r.y, r.z, angleX);
+        const pulse = Math.sin(time + i * 0.009) * 0.14;
+        const proj = project(r.x, r.y, r.z);
+        return { sx: proj.sx, sy: proj.sy, scale: proj.scale, z: r.z, hue: p.hue, sat: p.sat, pulse };
+      });
+      projected.sort((a, b) => a.z - b.z);
+
+      for (const p of projected) {
+        const depth = (p.z + RADIUS) / (RADIUS * 2);
+        if (!isFinite(depth)) continue;
+        const brightness = 40 + depth * 40 + p.pulse * 100;
+        const alpha = 0.25 + depth * 0.65;
+        const size = Math.max(0.5, p.scale * 3.2);
+        const glowRadius = Math.max(0.01, size * 4.5);
+        const bC = Math.min(80, Math.max(0, brightness));
+        const aC = Math.min(0.5, Math.max(0, alpha * 0.45));
+        const b2C = Math.min(90, Math.max(0, brightness + 20));
+        const a2C = Math.min(1, Math.max(0, alpha + 0.1));
+
+        const gl = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, glowRadius);
+        gl.addColorStop(0, 'hsla(' + p.hue + ',' + p.sat + '%,' + bC + '%,' + aC + ')');
+        gl.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, glowRadius, 0, Math.PI * 2);
+        ctx.fillStyle = gl;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, size, 0, Math.PI * 2);
+        ctx.fillStyle = 'hsla(' + p.hue + ',' + p.sat + '%,' + b2C + '%,' + a2C + ')';
+        ctx.fill();
+      }
+    }
+
+    resize();
+    draw();
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(parent);
+  })();
+
+  // ── clearChat helper ───────────────────────────────────────────────────────────
+  function clearChat() {
+    const msgs = document.getElementById('messages');
+    if (msgs) {
+      msgs.innerHTML = '<div class="welcome-msg" id="welcome"><p><strong style="color:var(--gold)">🔥 Namaste!</strong> I am HinduAI — your guide to the wisdom of the Vedas, Upanishads, Bhagavad Gita, and Hindu philosophy. Ask me anything about dharma, karma, meditation, yoga, or the sacred texts.</p></div>';
+    }
+  }
+
+  // ── Mirror verse of the day to sphere overlay ─────────────────────────────────
+  (function mirrorVerse() {
+    const poll = setInterval(() => {
+      const vt = document.getElementById('votd-text');
+      const vs = document.getElementById('votd-src');
+      const svt = document.getElementById('sphere-verse-text');
+      const svs = document.getElementById('sphere-verse-src');
+      if (vt && svt && vt.textContent && vt.textContent !== 'Loading sacred wisdom...') {
+        svt.textContent = vt.textContent;
+        if (vs && svs) svs.textContent = vs.textContent;
+        clearInterval(poll);
+      }
+    }, 800);
+  })();
+  </script>
 </body>
 </html>

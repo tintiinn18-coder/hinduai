@@ -1,1 +1,13 @@
-{ "version": 2, "rewrites": [{ "source": "/api/chat", "destination": "/api/chat.js" }] }
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/openai/:path*",
+      "destination": "https://hindu-chat-site--tintiinn18.replit.app/api/openai/:path*"
+    },
+    {
+      "source": "/api/chat",
+      "destination": "/api/chat.js"
+    }
+  ]
+}
